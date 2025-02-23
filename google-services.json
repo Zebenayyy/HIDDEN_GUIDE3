@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "274121959347",
+    "project_id": "hiddenguides",
+    "storage_bucket": "hiddenguides.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:274121959347:android:1321952ec81d06a8cc4dc6",
+        "android_client_info": {
+          "package_name": "com.ComfyCozies.HiddenGuide"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "274121959347-n1ouq9m4ftt3lt50tfj6ak7ts4cqirq4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdjmrot3XKSOQLCwOvgzYxOi-q17HuYqU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "274121959347-n1ouq9m4ftt3lt50tfj6ak7ts4cqirq4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "274121959347-q5qaqipijgvugmigmjqsot654b6l93lq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ComfyCozies.HiddenGuide"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
