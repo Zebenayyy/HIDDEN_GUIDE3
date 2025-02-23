@@ -1,10 +1,17 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
+      {/* Background Image */}
+      <Image
+        source={require('./assets/image/city.jpg')} // Adjust the path to your image
+        style={styles.backgroundImage}
+        resizeMode="cover" // Ensures the image covers the entire screen
+      />
+
       {/* Gradient Panel */}
       <LinearGradient
         colors={['#D8506C', '#E8BCB9']} // Gradient colors
@@ -22,7 +29,10 @@ const HomeScreen = () => {
         </Text>
 
         {/* Get Started Button */}
-        <TouchableOpacity style={styles.button} onPress={() => console.log('Get Started Pressed')}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Login')} // Navigate to Login screen
+        >
           <Text style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>
       </LinearGradient>
@@ -34,25 +44,31 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-end', // Push content to the bottom
-    backgroundColor: '#fff', // Background color for the rest of the screen
+  },
+  backgroundImage: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
   },
   gradientPanel: {
     width: '100%',
     height: '45%', // Height of the gradient panel
-    borderRadius: 20, // Rounded corners
+    borderRadius: 91, // Rounded corners with radius 91
     padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
   mainHeading: {
-    fontSize: 26,
-    fontWeight: '500', // Medium weight
+    fontSize: 32, // Updated font size for the header
+    fontWeight: 'bold', // Bold weight
     color: '#fff',
     textAlign: 'center',
     marginBottom: 10,
   },
   subheading: {
-    fontSize: 16,
+    fontSize: 15, // Updated font size for the description text
     fontWeight: '300', // Lighter weight
     color: 'rgba(255, 255, 255, 0.8)', // Slightly transparent white
     textAlign: 'center',
