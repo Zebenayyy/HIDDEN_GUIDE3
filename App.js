@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import{createStackNavigator} from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { /*SafeAreaView, View, Text, TextInput, Button, */StyleSheet } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import CustomDrawerContent from './CustomDrawerContent';
+import {View, Text, Button} from 'react-native';
 
 import EventPage from './screens/EventPage';
 import Itinerary from './screens/Itinerary';
@@ -22,32 +22,95 @@ import Registration from './screens/Registration';
 
 const Drawer = createDrawerNavigator();
 
+function CustomDrawerContent(props) {
+  return (
+    <View style={{ flex: 1, paddingTop: 50 }}>
+      <Text style={{ fontSize: 20, padding: 10 }}>Custom Drawer Content</Text>
+      <Button
+        title="Go to Home"
+        onPress={() => props.navigation.navigate('Home')}
+      />
+      <Button
+        title="Go to Details"
+        onPress={() => props.navigation.navigate('Details')}
+      />
+      <Button
+        title="Go to Details"
+        onPress={() => props.navigation.navigate('Details')}
+      />
+      <Button
+        title="Go to Details"
+        onPress={() => props.navigation.navigate('Details')}
+      />
+      <Button
+        title="Go to Details"
+        onPress={() => props.navigation.navigate('Details')}
+      />
+      <Button
+        title="Go to Details"
+        onPress={() => props.navigation.navigate('Details')}
+      />
+      <Button
+        title="Go to Details"
+        onPress={() => props.navigation.navigate('Details')}
+      />
+      <Button
+        title="Go to Details"
+        onPress={() => props.navigation.navigate('Details')}
+      />
+      <Button
+        title="Go to Details"
+        onPress={() => props.navigation.navigate('Details')}
+      />
+      <Button
+        title="Go to Details"
+        onPress={() => props.navigation.navigate('Details')}
+      />
+      <Button
+        title="Go to Details"
+        onPress={() => props.navigation.navigate('Details')}
+      />
+      <Button
+        title="Go to Details"
+        onPress={() => props.navigation.navigate('Details')}
+      />
+      <Button
+        title="Go to Details"
+        onPress={() => props.navigation.navigate('Details')}
+      />
+    </View>
+  );
+}
+
 const App = () => {
   return (
 
-    
+    <><View style={styles.container}>
+      <Text>Hidden Guide</Text>
+      <StatusBar style="auto" />
+    </View>
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <NavigationContainer>
-      <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}>
+        <NavigationContainer>
+          <Drawer.Navigator initialRouteName ="Home" drawerContent={(props) => <CustomDrawerContent {...props} />}>
 
-        {/*Supposed to define screens*/}
-        <Drawer.Screen name="Home" component={HomeScreen} />
-        <Drawer.Screen name="Introduction" component={OpenToApp}/>
-        <Drawer.Screen name="Log In" component={LogIn}/>
-        <Drawer.Screen name="Registration" component={Registration}/>
-        <Drawer.Screen name="Quiz1" component={Quiz1}/>
-        <Drawer.Screen name="Quiz2" component={Quiz2}/>
-        <Drawer.Screen name="Quiz3" component={Quiz3}/>
-        <Drawer.Screen name="Options" component={Options}/>
-        <Drawer.Screen name="Map View" component={MapView}/>
-        <Drawer.Screen name="Recommendations" component={Recs}/>
-        <Drawer.Screen name="Event" component={EventPage}/>
-        <Drawer.Screen name="Profile" component={Profile}/>
-        <Drawere.Screen name="Itinerary" component={Itinerary}/>
-      </Drawer.Navigator>
-    </NavigationContainer>
+            {/*Supposed to define screens*/}
+            <Drawer.Screen name="Home" component={HomeScreen} />
+            <Drawer.Screen name="Introduction" component={OpenToApp} />
+            <Drawer.Screen name="Log In" component={LogIn} />
+            <Drawer.Screen name="Registration" component={Registration} />
+            <Drawer.Screen name="Quiz1" component={Quiz1} />
+            <Drawer.Screen name="Quiz2" component={Quiz2} />
+            <Drawer.Screen name="Quiz3" component={Quiz3} />
+            <Drawer.Screen name="Options" component={Options} />
+            <Drawer.Screen name="Map View" component={MapView} />
+            <Drawer.Screen name="Recommendations" component={Recs} />
+            <Drawer.Screen name="Event" component={EventPage} />
+            <Drawer.Screen name="Profile" component={Profile} />
+            <Drawer.Screen name="Itinerary" component={Itinerary} />
+          </Drawer.Navigator>
+        </NavigationContainer>
 
-    </GestureHandlerRootView>
+      </GestureHandlerRootView></>
     
     
   );
