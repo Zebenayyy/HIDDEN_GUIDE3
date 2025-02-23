@@ -1,39 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ImageBackground, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation } from '@react-navigation/native';
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
 import { auth } from './firebaseConfig'; // Import Firebase auth
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { useNavigation } from '@react-navigation/native';
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
+
+WebBrowser.maybeCompleteAuthSession(); // Ensure the browser session is completed
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-
   const navigation = useNavigation();
+
+  // Configure Google Auth
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    expoClientId: '434267708976-gnv5g5dhjr0u36avap9g918rpnu7u794.apps.googleusercontent.com', // Replace with your Expo client ID
+    iosClientId: 'YOUR_IOS_CLIENT_ID', // Replace with your iOS client ID (optional)
+    androidClientId: 'YOUR_ANDROID_CLIENT_ID', // Replace with your Android client ID (optional)
+  });
+
+  // Handle Google Sign-In response
+  useEffect(() => {
+    if (response?.type === 'success') {
+      const { id_token } = response.params;
+      const credential = GoogleAuthProvider.credential(id_token);
+      signInWithCredential(auth, credential) // Authenticate with Firebase
+        .then(() => {
+          Alert.alert('Success', 'Logged in with Google!');
+          navigation.navigate('Explore'); // Redirect to Explore page
+        })
+        .catch((error) => {
+          console.error(error);
+          Alert.alert('Error', 'Google Sign-In failed');
+        });
+    }
+  }, [response]);
 
   // Handle login with email and password
   const handleLogin = async () => {
     try {
-      await signInWithEmailAndPassword(auth, email, password); // Authenticate with Firebase
+      const userCredential = await signInWithEmailAndPassword(auth, email, password); // Authenticate with Firebase
+      console.log('User logged in:', userCredential.user); // Debugging
       setErrorMessage('');
       navigation.navigate('Explore'); // Redirect to Explore page on successful login
     } catch (error) {
-      console.error(error);
+      console.error('Error during login:', error.message); // Debugging
       setErrorMessage('Invalid email or password');
-    }
-  };
-  
-
-  // Handle Google Sign-In
-  const handleGoogleSignIn = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(auth, provider); // Authenticate with Google
-      navigation.navigate('Explore'); // Redirect to Explore page on successful login
-    } catch (error) {
-      console.error(error);
-      Alert.alert('Error', 'Google Sign-In failed');
     }
   };
 
@@ -119,7 +134,13 @@ const LoginPage = () => {
         </TouchableOpacity>
 
         {/* Google Sign-In Button */}
-        <TouchableOpacity style={styles.googleButton} onPress={handleGoogleSignIn}>
+        <TouchableOpacity
+          style={styles.googleButton}
+          onPress={() => {
+            promptAsync(); // Trigger Google Sign-In flow
+          }}
+          disabled={!request}
+        >
           <Image source={require('./assets/image/google-icon.png')} style={styles.googleIcon} />
           <Text style={styles.googleButtonText}>Sign in with Google</Text>
         </TouchableOpacity>
@@ -149,21 +170,22 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   title: {
-    fontSize: 30,
+    fontSize: 60,
     fontWeight: 'bold',
     color: '#FFA500',
-    textShadowColor: '#4B0082',
-    textShadowOffset: { width: 2, height: 2 },
-    textShadowRadius: 5,
+    textShadowColor: '#CD5C5C',
+    textShadowOffset: { width: 10, height: 5 },
+    textShadowRadius: 10,
+    textAlign: 'center',
   },
   welcomeText: {
-    fontSize: 20,
+    fontSize: 30,
     color: '#FF6347',
     marginTop: 10,
   },
   instructionText: {
-    fontSize: 16,
-    color: '#fff',
+    fontSize: 20,
+    color: '#FA8072',
     marginTop: 5,
   },
   bottomSection: {
@@ -171,8 +193,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFB3C1',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    paddingTop: 30,
-    paddingHorizontal: 20,
+    paddingTop: 95,
+    paddingHorizontal: 50,
   },
   inputContainer: {
     flexDirection: 'row',

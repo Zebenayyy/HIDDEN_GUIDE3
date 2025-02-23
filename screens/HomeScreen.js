@@ -11,7 +11,6 @@ const HomeScreen = ({ navigation }) => {
         style={styles.backgroundImage}
         resizeMode="cover" // Ensures the image covers the entire screen
       />
-
       {/* Gradient Panel */}
       <LinearGradient
         colors={['#D8506C', '#E8BCB9']} // Gradient colors
@@ -21,17 +20,15 @@ const HomeScreen = ({ navigation }) => {
       >
         {/* Main Heading */}
         <Text style={styles.mainHeading}>Go on an adventure{'\n'}anytime, anywhere.</Text>
-
         {/* Subheading */}
         <Text style={styles.subheading}>
           A mystery awaits you in the places you least expect it.{'\n'}
           Find spots you never knew existed!
         </Text>
-
         {/* Get Started Button */}
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('Login')} // Navigate to Login screen
+          onPress={() => navigation.navigate('Quiz1')} // Navigate to LogIn screen
         >
           <Text style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>

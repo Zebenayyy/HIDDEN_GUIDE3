@@ -1,195 +1,159 @@
 import React, { useState } from 'react';
-import { 
-  View, 
-  Text, 
-  TouchableOpacity, 
-  Image, 
-  StyleSheet, 
-  SafeAreaView, 
-  Dimensions 
-} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
-const QuizPage = ({ navigation }) => {
-  const [selectedOption, setSelectedOption] = useState(null);
+const Quiz1 = ({ navigation }) => {
+  const [selectedCard, setSelectedCard] = useState(null);
 
-  const handleOptionPress = (option) => {
-    setSelectedOption(option);
+  // Handle card selection
+  const handleCardPress = (choice) => {
+    setSelectedCard(choice);
+  };
+
+  // Handle Continue button press
+  const handleContinue = () => {
+    if (selectedCard) {
+      // Navigate to Quiz2
+      navigation.navigate('Quiz2');
+    } else {
+      alert('Please select an option to continue.');
+    }
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* Header Section */}
-      <View style={styles.header}>
-        {/* Back Button */}
-        <TouchableOpacity 
-          style={styles.backButton} 
-          onPress={() => navigation.goBack()}
-        >
-          <Text style={styles.backButtonText}>←</Text>
-        </TouchableOpacity>
+    <View style={styles.container}>
+      {/* Removed the topNavigation section */}
+      
+      {/* Main Title */}
+      <Text style={styles.mainTitle}>Activity or Dining?</Text>
 
-        {/* Skip Button */}
-        <TouchableOpacity style={styles.skipButton}>
-          <Text style={styles.skipButtonText}>Skip</Text>
-        </TouchableOpacity>
+      {/* Cards Container */}
+      <View style={styles.cardsContainer}>
+        {/* Adventure Card (Left-Aligned) */}
+        <View style={styles.leftCardWrapper}>
+          <TouchableOpacity
+            style={[
+              styles.card,
+              styles.adventureCard,
+              selectedCard === 'Adventure' && styles.selectedCard,
+            ]}
+            onPress={() => handleCardPress('Adventure')}
+          >
+            <Image
+              source={require('./assets/image/marrygoround.png')} // Corrected path
+              style={styles.cardImage}
+            />
+            <Text style={styles.cardText}>I'm Feeling Adventurous</Text>
+          </TouchableOpacity>
+        </View>
 
-        {/* Title */}
-        <Text style={styles.title}>Activity or Dining?</Text>
-      </View>
-
-      {/* Selectable Options */}
-      <View style={styles.optionsContainer}>
-        {/* First Card (Activity Option) */}
-        <TouchableOpacity 
-          style={[styles.card, styles.activityCard, selectedOption === 'activity' && styles.selectedCard]} 
-          onPress={() => handleOptionPress('activity')}
-        >
-          <Image 
-            source={{ uri: 'https://via.placeholder.com/150' }} // Replace with actual image URL
-            style={styles.cardImage}
-          />
-          <Text style={styles.cardText}>I'm Feeling Adventurous</Text>
-        </TouchableOpacity>
-
-        {/* Second Card (Dining Option) */}
-        <TouchableOpacity 
-          style={[styles.card, styles.diningCard, selectedOption === 'dining' && styles.selectedCard]} 
-          onPress={() => handleOptionPress('dining')}
-        >
-          <Image 
-            source={{ uri: 'https://via.placeholder.com/150' }} // Replace with actual image URL
-            style={styles.cardImage}
-          />
-          <Text style={styles.cardText}>I'm Hungry</Text>
-        </TouchableOpacity>
+        {/* Dining Card (Right-Aligned and Below) */}
+        <View style={styles.rightCardWrapper}>
+          <TouchableOpacity
+            style={[
+              styles.card,
+              styles.diningCard,
+              selectedCard === 'Dining' && styles.selectedCard,
+            ]}
+            onPress={() => handleCardPress('Dining')}
+          >
+            <Image
+              source={require('./assets/image/salada.png')} // Corrected path
+              style={styles.cardImage}
+            />
+            <Text style={styles.cardText}>I'm Hungry</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Continue Button */}
-      <TouchableOpacity 
-        style={[styles.continueButton, !selectedOption && styles.disabledButton]} 
-        onPress={() => selectedOption && navigation.navigate('NextScreen')} // Replace 'NextScreen' with your target screen
-        disabled={!selectedOption}
+      <TouchableOpacity
+        style={styles.continueButton}
+        onPress={handleContinue}
       >
         <Text style={styles.continueButtonText}>Continue</Text>
       </TouchableOpacity>
-
-      {/* User Icon */}
-      <TouchableOpacity style={styles.userIcon}>
-        <Text style={styles.userIconText}>👤</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFEBF2', // Soft pink background
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    backgroundColor: '#F2B5C1', // Light pink/rose background
     padding: 20,
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '100%',
-    marginBottom: 20,
-  },
-  backButton: {
-    backgroundColor: '#C75A76', // Dark pink
-    borderRadius: 25,
-    width: 50,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  backButtonText: {
-    color: '#FFFFFF',
-    fontSize: 24,
-  },
-  skipButton: {
-    position: 'absolute',
-    right: 0,
-  },
-  skipButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-  },
-  title: {
-    fontSize: 26,
+  mainTitle: {
+    fontSize: 36, // Increased font size for "Activity or Dining?"
     fontWeight: 'bold',
-    color: '#C75A76',
+    color: '#E75A7C', // Pink
+    marginBottom: 20,
     textAlign: 'center',
-    marginTop: 10,
+    marginTop: 30, // Adjust spacing from the top
   },
-  optionsContainer: {
-    width: '100%',
-    gap: 20,
+  cardsContainer: {
+    flex: 1, // Take up available vertical space
+    flexDirection: 'column', // Arrange cards vertically
+    justifyContent: 'center', // Center cards vertically
+    alignItems: 'center', // Center cards horizontally
+  },
+  leftCardWrapper: {
+    alignSelf: 'flex-start', // Align the left card to the left
+    marginBottom: 20, // Add spacing between the two cards
+  },
+  rightCardWrapper: {
+    alignSelf: 'flex-end', // Align the right card to the right
   },
   card: {
-    width: '100%',
-    height: 150,
-    borderRadius: 15,
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end',
-    padding: 15,
-    overflow: 'hidden',
+    borderRadius: 20,
+    padding: 20,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+    width: 189, // Fixed width
+    height: 184, // Fixed height
   },
-  activityCard: {
-    backgroundColor: '#FFC0CB', // Light pink
+  adventureCard: {
+    backgroundColor: 'rgba(231, 90, 124, 0.2)', // Darker pink with 20% opacity
   },
   diningCard: {
-    backgroundColor: '#FFA07A', // Light orange
+    backgroundColor: 'rgba(244, 162, 97, 0.2)', // Peach/orange with 20% opacity
   },
   selectedCard: {
-    borderWidth: 3,
-    borderColor: '#C75A76',
+    borderColor: '#fff',
+    borderWidth: 2,
   },
   cardImage: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    resizeMode: 'cover',
+    width: 100,
+    height: 100,
+    marginBottom: 10,
   },
   cardText: {
-    color: '#FFFFFF',
-    fontSize: 18,
+    color: '#fff',
+    fontSize: 16,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   continueButton: {
-    backgroundColor: '#C75A76',
-    borderRadius: 30,
+    backgroundColor: '#E75A7C', // Darker pink
     paddingVertical: 15,
-    paddingHorizontal: 40,
+    borderRadius: 20,
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
     elevation: 5,
-  },
-  disabledButton: {
-    backgroundColor: '#D3D3D3',
+    marginHorizontal: 20, // Add horizontal margins
+    marginBottom: 20, // Add space at the bottom
   },
   continueButtonText: {
-    color: '#FFFFFF',
+    color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
-  },
-  userIcon: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    backgroundColor: '#000000',
-    borderRadius: 25,
-    width: 50,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  userIconText: {
-    color: '#FFFFFF',
-    fontSize: 24,
   },
 });
 
-export default QuizPage;
+export default Quiz1;
